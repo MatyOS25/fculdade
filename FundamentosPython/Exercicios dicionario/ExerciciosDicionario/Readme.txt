@@ -1,4 +1,7 @@
 Computa¸c˜ao I - Python
+
+
+https://dcc.ufrj.br/~pythonufrj/aulas-python1_37/aula10_pratica.pdf
 Laborat´orio 10
 1. Escreva uma fun¸c˜ao que recebe uma lista e retorna uma nova lista sem elementos duplicados. Lembre
 que os elementos duplicados n˜ao precisam aparecer em posi¸c˜oes consecutivas. Dica: use um dicion´ario.
