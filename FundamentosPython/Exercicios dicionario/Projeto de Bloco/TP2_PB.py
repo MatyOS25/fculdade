@@ -17,6 +17,7 @@ Coordinate = namedtuple('Coordinate', ['x', 'y'])
 screenSize = Coordinate(x=800, y=600)
 screen = pygame.display.set_mode(screenSize)
 
+info = cpuinfo.get_cpu_info()
 
 # Change title
 pygame.display.set_caption('Monitoring System')
@@ -59,11 +60,17 @@ def cpu_usage():
     text5 = font.render(f"Atual: {cpu_freq}Ghz", 1, darkGrey)
     screen.blit(text5, (200, 150))
     text1 = font.render(f"Processador: {platform.processor()}.", 1, darkGrey)
+    screen.blit(text1, (20, 250))
+    text1 = font.render(f"Processador: {info['brand_raw']}.", 1, darkGrey)
     screen.blit(text1, (20, 230))
+    text5 = font.render(f"Arquitetura: {info['arch']}.", 1, darkGrey)
+    screen.blit(text5, (600, 230)) 
+    text5 = font.render(f"Núcleos: {psutil.cpu_count()}.", 1, darkGrey)
+    screen.blit(text5, (500, 230))
     text2 = font.render(f"Node: {platform.node()}.", 1, darkGrey)
-    screen.blit(text2, (20, 250))
+    screen.blit(text2, (20, 270))
     text4 = font.render(f"Sistema: {platform.system()} ({platform.platform()}).", 1, darkGrey)
-    screen.blit(text4, (20, 270))
+    screen.blit(text4, (20, 290))
 
 def cpu_info():
     info = cpuinfo.get_cpu_info()
