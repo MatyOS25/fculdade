@@ -22,6 +22,7 @@ info = cpuinfo.get_cpu_info()
 # Change title
 pygame.display.set_caption('Monitoring System')
 
+core = psutil.cpu_percent(interval=1, percpu=True)
 # Colors
 background = (232,232,232)
 backgroundContrast = (196,182,182)
@@ -65,12 +66,29 @@ def cpu_usage():
     screen.blit(text1, (20, 230))
     text5 = font.render(f"Arquitetura: {info['arch']}.", 1, darkGrey)
     screen.blit(text5, (600, 230)) 
-    text5 = font.render(f"Núcleos: {psutil.cpu_count()}.", 1, darkGrey)
+    text5 = font.render(f"Núcleos: {psutil.cpu_count()} ({psutil.cpu_count(logical=False)}).", 1, darkGrey)
     screen.blit(text5, (500, 230))
     text2 = font.render(f"Node: {platform.node()}.", 1, darkGrey)
     screen.blit(text2, (20, 270))
     text4 = font.render(f"Sistema: {platform.system()} ({platform.platform()}).", 1, darkGrey)
     screen.blit(text4, (20, 290))
+
+core = psutil.cpu_percent(interval=1, percpu=True)
+def mostra_uso_cpu(s, l_cpu_percent):
+    s.fill(LightGrey)
+    num_cpu = len(l_cpu_percent)
+    x = y = 10
+    desl = 10
+    alt = s.get_height() - 2*y
+    larg = (s.get_width()-2*y - (num_cpu+1)*desl)/num_cpu
+    d = x + desl
+    l_cpu_percent = psutil.cpu_percent(interval=1, percpu=True)
+    for i in l_cpu_percent:
+                pygame.draw.rect(s, darkGrey, (d, y, larg, alt))
+                pygame.draw.rect(s, blueWater, 	(d, y, larg, (1-i/100)*alt))
+                d = d + larg + desl
+    # parte mais abaixo da tela e à esquerda
+    screen.blit(s, (0, 600/5))
 
 def cpu_info():
     info = cpuinfo.get_cpu_info()
@@ -125,10 +143,8 @@ while running:
     if counter == 60:
         # paint the screen
         screen.fill(blueWater)
-        memory_usage()
-        cpu_usage()
-        disk_usage()
-        draw_ip_info()
+        mostra_uso_cpu(screen, core)
+
         counter = 0
 
     # Update the display
